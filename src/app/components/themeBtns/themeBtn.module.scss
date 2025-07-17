@@ -1,0 +1,11 @@
+.imageLogo {
+    width: 58px;
+    height: 58px;
+}
+
+@media(width <= 840px) {
+    .imageLogo {
+        width: 28px;
+        height: 28px;
+    }
+}

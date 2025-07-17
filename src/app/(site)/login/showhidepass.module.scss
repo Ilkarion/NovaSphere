@@ -1,0 +1,19 @@
+.showHidePass {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    position: relative;
+    &>div {
+        position: absolute;
+        width: 22px;
+        height:20px;
+        right: 5px;
+
+        &:hover {
+            cursor: pointer;
+        }
+        &>img {
+            object-fit: contain;
+        }
+    }
+}

@@ -1,0 +1,14 @@
+.underlineLink {
+    text-decoration: underline;
+    color: var(--accents);
+}
+
+.font {
+    font-size: 25px;
+}
+
+@media(width <= 540px) {
+    .underlineLink {
+        font-size: 20px;
+    }
+}
