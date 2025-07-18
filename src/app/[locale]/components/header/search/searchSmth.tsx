@@ -1,5 +1,5 @@
 import Image from "next/image"
-import searchImg from "../../../../imgs/search.svg"
+import searchImg from "../../../../../imgs/search.svg"
 import styles from "./searchsmth.module.scss"
 
 export default function SearchSmth() {

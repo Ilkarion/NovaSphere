@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image"
 import { useState } from "react"
-import languageImg from "../../../imgs/languages.svg"
+import languageImg from "../../../../imgs/languages.svg"
 import styles from "./lang.module.scss"
 
 export default function ChangeLang() {

@@ -1,8 +1,8 @@
 'use client'
 
 import Image from "next/image"
-import hideImg from "../../../imgs/hide_password.svg"
-import showImg from "../../../imgs/show_password.svg"
+import hideImg from "../../../../imgs/hide_password.svg"
+import showImg from "../../../../imgs/show_password.svg"
 import { useState } from "react"
 import styles from "./showhidepass.module.scss"
 

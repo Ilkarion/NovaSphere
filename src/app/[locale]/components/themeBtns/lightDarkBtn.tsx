@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react"
-import ThemeImg from "../../../imgs/theme.svg"
+import ThemeImg from "../../../../imgs/theme.svg"
 import Image from "next/image"
 import { useTheme } from "next-themes"
 import styles from "./themeBtn.module.scss"

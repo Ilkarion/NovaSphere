@@ -1,9 +1,9 @@
 'use client'
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import userImg from "../../../imgs/user.svg"
+import userImg from "../../../../imgs/user.svg"
 import styles from "./userAuth.module.scss"
-import { createClient } from "../../../../utils/supabase/client"
+import { createClient } from "../../../../../utils/supabase/client"
 import Link from "next/link"
 
 export default function UserAuth() {
