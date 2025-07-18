@@ -6,14 +6,18 @@ import spaceImg from "@/imgs/spaceDesctop.svg"
 import inventionsImg from "@/imgs/inventionsDesctop.svg"
 import Link from "next/link"
 
+import { useTranslations } from "next-intl"
+
 export default function Sections() {
+    const t = useTranslations("HomePage")
+    const categories: string[] = t.raw("categories") 
     return(
         <div className={styles.sectionContainer}>
             {/* 3 sections */}
 
             <Link href="/earth">
                 <div className={styles.section}>
-                    <span>Nature of Earth</span>
+                    <span>{categories[0]}</span>
                     <div>
                         <Image src={earthImg} alt="Earth picture"/>
                     </div>
@@ -22,7 +26,7 @@ export default function Sections() {
 
             <Link href="/space">
                 <div className={styles.section}>
-                    <span>Space</span>
+                    <span>{categories[1]}</span>
                     <div>
                         <Image src={spaceImg} alt="Space picture"/>
                     </div>
@@ -31,7 +35,7 @@ export default function Sections() {
 
             <Link href="/inventions">
                 <div className={styles.section}>
-                    <span>Inventions of Mankind</span>
+                    <span>{categories[2]}</span>
                     <div>
                         <Image src={inventionsImg} alt="Inventions picture"/>
                     </div>

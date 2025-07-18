@@ -3,12 +3,13 @@ import Image from "next/image"
 import blackHoleImg from "@/imgs/blackHoleDesctop.svg"
 import antImg from "@/imgs/antDesctop.svg"
 
-
+import { useTranslations } from "next-intl"
 
 export default function Random() {
+    const t = useTranslations("HomePage")
     return(
         <>
-            <h2 className={styles.headerSecond}>2 random articles</h2>
+            <h2 className={styles.headerSecond}>{t("articles")}</h2>
 
             <div className={styles.articleContainer}>
                 <div className={styles.someArticle}>

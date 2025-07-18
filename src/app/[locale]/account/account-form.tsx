@@ -4,6 +4,7 @@ import { createClient } from '../../../../utils/supabase/client'
 import { type User } from '@supabase/supabase-js'
 
 import styles from "./SCSS/account.module.scss"
+import Link from 'next/link'
 
 // ...
 
@@ -127,6 +128,7 @@ export default function AccountForm({ user }: { user: User | null }) {
               </button>
             </form>
           </div>
+          <div className={styles.returnBtn}><Link href={"/"}>Return</Link></div>
         </div>
     </div>
   )

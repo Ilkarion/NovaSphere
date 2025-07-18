@@ -11,3 +11,9 @@
     flex-direction: column;
     gap: 24px;
 }
+
+.returnBtn {
+    background-color: var(--highlight);
+    width: fit-content;
+    padding: 5px 10px;
+}
