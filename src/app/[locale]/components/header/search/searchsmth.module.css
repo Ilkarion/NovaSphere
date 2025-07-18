@@ -1,0 +1,33 @@
+.serchContainer {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  max-width: 930px;
+  margin: auto;
+}
+.serchContainer > input {
+  width: 100%;
+  height: 70px;
+  border: none;
+  border-radius: 40px;
+  padding-left: 30px;
+  padding-right: 80px;
+  font-size: 25px;
+}
+.serchContainer > input:focus-visible {
+  outline: none;
+}
+.serchContainer > div {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  right: 20px;
+}
+.serchContainer > div:hover {
+  cursor: pointer;
+}
+.serchContainer > div > img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}/*# sourceMappingURL=searchsmth.module.css.map */

@@ -8,7 +8,12 @@ import SearchSmth from "./components/header/search/searchSmth";
 import Sections from "./components/homePage/sections/sections";
 import Random from "./components/homePage/random/random";
 
+import { useTranslations } from "next-intl";
+
 export default function Home() {
+
+  const t = useTranslations("HomePage")
+
   return (
     <>
       <header className={`${styles.header}`}>
@@ -17,7 +22,7 @@ export default function Home() {
         <ChangeLang />
       </header>
       <LinkNavigating />
-      <h1 className={styles.headerFirst}>Encyclopedia</h1>
+      <h1 className={styles.headerFirst}>{t('title')}</h1>
       <SearchSmth />
       <Sections />
       <Random />

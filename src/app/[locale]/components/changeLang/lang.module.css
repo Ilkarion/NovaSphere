@@ -1,0 +1,29 @@
+.langContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.langBtn {
+  width: 58px;
+  height: 58px;
+}
+
+@media (width <= 840px) {
+  .langBtn {
+    width: 28px;
+    height: 28px;
+  }
+}
+.langMenu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-blocks);
+  padding: 15px 30px;
+  text-align: center;
+  position: absolute;
+  top: 75px;
+  z-index: 10;
+}/*# sourceMappingURL=lang.module.css.map */

@@ -1,0 +1,19 @@
+.showHidePass {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  position: relative;
+}
+.showHidePass > div {
+  position: absolute;
+  width: 22px;
+  height: 20px;
+  right: 5px;
+}
+.showHidePass > div:hover {
+  cursor: pointer;
+}
+.showHidePass > div > img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}/*# sourceMappingURL=showhidepass.module.css.map */

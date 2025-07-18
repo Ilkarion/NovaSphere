@@ -1,0 +1,24 @@
+.sectionContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 70px;
+  justify-content: space-around;
+  margin-top: 150px;
+  flex-wrap: wrap;
+  font-size: 25px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.section:hover {
+  cursor: pointer;
+}
+.section > div {
+  width: 260px;
+  height: 260px;
+}/*# sourceMappingURL=sections.module.css.map */

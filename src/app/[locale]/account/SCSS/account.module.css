@@ -1,0 +1,13 @@
+.formContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formWidget {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}/*# sourceMappingURL=account.module.css.map */

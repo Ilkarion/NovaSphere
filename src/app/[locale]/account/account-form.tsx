@@ -1,6 +1,6 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
-import { createClient } from '../../../utils/supabase/client'
+import { createClient } from '../../../../utils/supabase/client'
 import { type User } from '@supabase/supabase-js'
 
 import styles from "./SCSS/account.module.scss"

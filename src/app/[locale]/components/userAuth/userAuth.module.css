@@ -1,0 +1,39 @@
+.userMenu {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.containerMenu {
+  background-color: var(--bg-blocks);
+  max-width: 200px;
+  position: absolute;
+  top: 75px;
+  z-index: 10;
+}
+
+.imageLogo {
+  width: 58px;
+  height: 58px;
+}
+
+@media (width <= 840px) {
+  .imageLogo {
+    width: 28px;
+    height: 28px;
+  }
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 30px;
+  list-style-type: none;
+  text-align: center;
+  width: 100%;
+}
+
+.signOut {
+  background-color: transparent;
+  font-size: inherit;
+  border: none;
+}/*# sourceMappingURL=userAuth.module.css.map */
