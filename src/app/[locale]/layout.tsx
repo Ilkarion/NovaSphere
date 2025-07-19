@@ -51,7 +51,9 @@ export default async function LocaleLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <NextIntlClientProvider>{children}</NextIntlClientProvider>
+            <NextIntlClientProvider>
+              {children}
+            </NextIntlClientProvider>
           </ThemeProvider>
       </body>
     </html>

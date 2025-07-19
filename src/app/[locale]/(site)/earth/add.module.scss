@@ -1,0 +1,24 @@
+.containerBtn {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 40px;
+
+}
+
+.btn {
+    background-color: var(--highlight);
+    padding: 8px 0px;
+    width: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+    &:hover {
+        cursor: pointer;
+    }
+    &>div {
+        width: 30px;
+        height: 30px;
+    }
+}
