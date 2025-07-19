@@ -1,4 +1,4 @@
-
+@import 'tailwindcss';
 html.dark {
   --background: rgba(1, 13, 12, 1);
   --bg-blocks: rgba(21, 80, 52, 1);
