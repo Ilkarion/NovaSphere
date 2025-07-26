@@ -1,0 +1,33 @@
+.biggerImgContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+    
+  &>div {
+    max-width: 70%;
+  }
+
+@media(width<= 800px) {
+  &>div {
+    max-width: 90%;
+  }
+  }
+}
+
+.description {
+  margin-top: 0.5rem;
+  font-size: 25px;
+  color: var(--main-text);
+  text-align: center;
+
+    @media(width<= 800px) {
+        &{
+            font-size: 20px;
+        }
+    }
+    @media(width<= 500px) {
+        &{
+            font-size: 18px;
+        }
+    }
+}
