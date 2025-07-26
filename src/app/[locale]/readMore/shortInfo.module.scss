@@ -1,0 +1,53 @@
+//TEXT
+.textContainer {
+    font-size: 20px;
+
+    &>h3 {
+        font-size: 25px;
+    }
+
+    @media(width <=500px) {
+        & {
+            font-size: 18px;
+
+            &>h3 {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+
+
+//SOURCE
+.sourceMenu {
+    min-width: 200px;
+    max-width: 400px;
+    border: 1px solid var(--accents);
+    padding: 10px;
+    position: relative;
+    &>div {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        flex-wrap: wrap;
+
+
+        &>a {
+            text-decoration: underline;
+            color: var(--accents);
+        }
+    }
+
+    .closeSource {
+        text-decoration: underline;
+        color: var(--accents);
+        position: absolute;
+        top: 0px;
+        right: 10px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
