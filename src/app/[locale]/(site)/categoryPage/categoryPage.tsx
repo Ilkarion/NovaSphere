@@ -13,8 +13,8 @@ export default function CategoryPage({ header}:{header:string}) {
         <>
             <h2 className={styles.mainHeader}>{header}</h2>
             <SearchSmth />
-            <AddArticle /> {/* btn to add new card */}
-            <CardArticle/> {/*depending which page we have we will GET those cards*/}
+            <AddArticle category={header} /> {/* btn to add new card */}
+            <CardArticle mode="articles-page" category={header}/> {/*depending which page we have we will GET those cards*/}
         </>
     )
 };

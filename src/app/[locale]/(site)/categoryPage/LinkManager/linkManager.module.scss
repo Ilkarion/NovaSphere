@@ -1,0 +1,59 @@
+.linksBlock {
+  margin: 20px 0px 0px 30px;
+}
+
+.linksRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  font-size: 20px;
+  @media(width < 550px) {
+      font-size: 18px;
+  }
+
+  input {
+    padding: 10px;
+    background-color: var(--bg-inputs);
+    font-size: 18px;
+    border: none;
+    outline: none;
+    color: var(--main-text);
+  }
+
+  button {
+    background-color: var(--highlight);
+    color: var(--main-text);
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+  }
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    &:hover {
+        background-color: transparent;
+        cursor: default;
+    }
+
+    a {
+      color: var(--accents);
+      text-decoration: underline;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: red;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
+}

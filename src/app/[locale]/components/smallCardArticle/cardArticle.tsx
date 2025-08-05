@@ -1,16 +1,13 @@
 'use client'
 import styles from "./card.module.scss"
-import Image from "next/image"
-
-import { StaticImageData } from "next/image"
-import { useEffect, useState } from "react";
-
-import ReadMore from "../../readMore/readMore";
-
+import Image, { StaticImageData } from "next/image"
+import { useEffect, useState } from "react"
+import ReadMore from "../../readMore/readMore"
 import blackHoleImg from "@/imgs/blackHoleDesctop.svg"
-import nasaBlackHoleImg  from "@/imgs/nasablackHole.svg"
+import nasaBlackHoleImg from "@/imgs/nasablackHole.svg"
 import antImg from "@/imgs/antDesctop.svg"
 import blackHoleMorInfoImg from "@/imgs/nasaBlackHoleInfo.svg"
+import { createClient } from "../../../../../utils/supabase/client"
 
 interface Card {
   id: number;
@@ -19,9 +16,8 @@ interface Card {
   description: string;
 }
 
-
 interface ImagesInfo {
-  img: StaticImageData;
+  img: string;
   imgDescribtion: string;
   alt: string;
   id: number;
@@ -39,10 +35,10 @@ interface TextAbout {
 }
 
 interface MiniVersion {
-  id: number,
-  title: string,
-  image: StaticImageData,
-  description: string
+  id: number;
+  title: string;
+  image: StaticImageData;
+  description: string;
 }
 
 interface ReadMoreI {
@@ -51,205 +47,203 @@ interface ReadMoreI {
 }
 
 interface BiggerVersions {
-  id: number,
-  readMore: ReadMoreI
+  id: number;
+  readMore: ReadMoreI;
 }
 
 interface AllInfoObject {
-  miniVersions: MiniVersion[],
-  biggerVersions: BiggerVersions[]
+  miniVersions: MiniVersion[];
+  biggerVersions: BiggerVersions[];
 }
 
-
-
-const infoEncy: AllInfoObject = {
-  "miniVersions": [
-    {
-      "id": 1,
-        "title": "Black Hole",
-        "image": blackHoleImg,
-        "description": "They're extremely dense, with gravitational forces so strong, that nothing, not even lights, can escape once it crosses the boundary known as the event horizon.",
-    },
-    {
-      "id": 2,
-        "title": "Ant",
-        "image": antImg,
-        "description": "Ants are common insects, but they have some unique capabilities—including their legendary communication skills that allow their colonies to function as superorganisms.",
-    },
-    {
-      "id": 3,
-        "title": "Black Hole",
-        "image": blackHoleImg,
-        "description": "They're extremely dense, with gravitational forces so strong, that nothing, not even lights, can escape once it crosses the boundary known as the event horizon.",
-    },
-    {
-      "id": 4,
-        "title": "Ant",
-        "image": antImg,
-        "description": "Ants are common insects, but they have some unique capabilities—including their legendary communication skills that allow their colonies to function as superorganisms.",
-    },
-  ],
-  "biggerVersions": [
-    {
-      "id": 1,
-      "readMore": {
-        "infoImg": [
-            {
-                "img": nasaBlackHoleImg,
-                "imgDescribtion": "In 2019 the Event Horizon Telescope (EHT) collaboration released the first image ever recorded of a black hole. The EHT saw the black hole in the center of galaxy M87 while the telescope was examining the event horizon or the area past which nothing can escape from a black hole. The image maps the sudden loss of photons (particles of light). It also opens up a whole new area of research in black holes, now that astronomers know what a black hole looks like.",
-                "alt": "black Hole from telescope",
-                "id": 1
-            },
-            {
-                "img": blackHoleMorInfoImg,
-                "imgDescribtion": "",
-                "alt": "black Hole build",
-                "id": 2
-            }
-        ],
-
-        "blockText": [
-            {
-            "mainHeader": "What is a Black Hole?",
-            "describtion": "Space object with very strong gravity. Nothing can escape from it — not even light.\nIt has a “point” in the center called a singularity.\nAround it is the event horizon — the point of no return.",
-            "links": [
-                {
-                    "href": "https://www.space.com/15421-black-holes-facts-formation-discovery-sdcmp.html",
-                    "text": "Space"
-                }
-                
-            ]
-            },
-            {
-            "mainHeader": "How Black Holes Form?",
-            "describtion": "When a big star dies, it can collapse into a black hole.\nBlack holes can also be made when two neutron stars crash into each other.\nBig galaxies (like our Milky Way) have a supermassive black hole in the center.",
-            "links": [
-                {
-                    "href": "https://www.nasa.gov/universe/what-are-black-holes/",
-                    "text": "Nasa"
-                }
-                
-            ]    
-            } 
-        ]
-      }
-    }
-  ]
+export interface Article {
+  id: number;
+  created_at: string;
+  data: {
+    miniVersions: {
+      image: string;
+      title: string;
+      describtion: string;
+    }[];
+    biggerVersions: {
+      readMore: {
+        infoImg: ImagesInfo[];
+        blockText: TextAbout[];
+      };
+    }[];
+  };
 }
 
+function convertArticlesToAllInfo(data: Article[]): AllInfoObject {
+  const allInfo: AllInfoObject = {
+    miniVersions: [],
+    biggerVersions: [],
+  };
 
+  data.forEach(({ id, data: { miniVersions, biggerVersions } }) => {
+    miniVersions.forEach((mini) => {
+      allInfo.miniVersions.push({
+        id,
+        title: mini.title,
+        image: mini.image as unknown as StaticImageData,
+        description: mini.describtion,
+      });
+    });
 
-export default function CardArticle() {
-  const [read, setRead] = useState(false)
+    biggerVersions.forEach((big) => {
+      allInfo.biggerVersions.push({
+        id,
+        readMore: {
+          infoImg: big.readMore.infoImg.map((img) => ({ ...img })),
+          blockText: big.readMore.blockText.map((block) => ({ ...block, links: [...block.links] })),
+        },
+      });
+    });
+  });
+
+  return allInfo;
+}
+
+export default function CardArticle({mode, category}:{mode:string, category: string}) {
+  const supabase = createClient();
+  const [convertedData, setConvertedData] = useState<AllInfoObject | null>(null);
+  const [choosenCards, setChoosenCards] = useState<Card[]>([]);
+  const [read, setRead] = useState(false);
   const [selectedReadMore, setSelectedReadMore] = useState<ReadMoreI | null>(null);
-
-
-
-  const allCards = infoEncy.miniVersions
-  const startSliced = allCards.slice(0, 6)
-  const [choosenCards, setChoosenCards] = useState<Card[]>(startSliced);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [randomArticles, setRandomArticles] = useState<Card[]>([])
   const itemsPerPage = 3;
 
-  const totalPages = Math.ceil(allCards.length / itemsPerPage);
+  const totalPages = Math.ceil((convertedData?.miniVersions.length || 0) / itemsPerPage);
 
-  function getVisiblePages(current: number, total: number): (number | string)[] {
-    if (total <= 4) {
-      return Array.from({ length: total }, (_, i) => i + 1);
+useEffect(() => {
+  async function supDataGet() {
+    let data, error;
+
+    if (mode === "main-page") {
+      const res = await supabase.from('articles').select('*');
+      data = res.data;
+      error = res.error;
+    } else if (mode === "articles-page") {
+      const res = await supabase.from('articles').select('*').eq('category', category);
+      data = res.data;
+      error = res.error;
     }
-    if (current <= 3) {
-      // The beginning is visible, the end is hidden
-      return [1, 2, 3, "..."];
+
+    if (error) {
+      alert('Fetch error: ' + error.message);
+      return;
     }
-    if (current >= total - 2) {
-      // The end is seen, the beginning is hidden
-      return ["...", total - 2, total - 1, total];
-    }
-    // Middle - show only one "..."
-    return ["...", current, current + 1, current + 2];
+
+    const finalData = convertArticlesToAllInfo(data as Article[]);
+    setConvertedData(finalData);
   }
 
-
-  function diapasonSliced(pageNum: number) {
-    const start = (pageNum - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    const sliced = allCards.slice(start, end);
-    setChoosenCards(sliced);
-    setCurrentPage(pageNum); // update current page
-  }
+  supDataGet();
+}, []);
 
   useEffect(() => {
-    function diapasonSliced(pageNum: number) {
+    if (convertedData) diapasonSliced(1);
+  }, [convertedData]);
+
+  function diapasonSliced(pageNum: number) {
+    if(mode === "articles-page") {
       const start = (pageNum - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      const sliced = allCards.slice(start, end);
+      const sliced = convertedData?.miniVersions.slice(start, end) || [];
       setChoosenCards(sliced);
-      setCurrentPage(pageNum); // update current page
+      setCurrentPage(pageNum);
+    } else if(mode === "main-page" && convertedData) {
+      let randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
+      let randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
+      while (randomIndex === randomIndexTwo) {
+        randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
+        randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
+      }
+      const choosenTwoRnadom = []
+      choosenTwoRnadom.push(convertedData.miniVersions[randomIndex])
+      choosenTwoRnadom.push(convertedData.miniVersions[randomIndexTwo])
+      setRandomArticles(choosenTwoRnadom)
     }
-    diapasonSliced(1);
-  }, [allCards]);
+
+  }
 
   function open(id: number) {
-    const foundBig = infoEncy.biggerVersions.find((item) => item.id === id);
+    const foundBig = convertedData?.biggerVersions.find((item) => item.id === id);
     if (foundBig) {
       setSelectedReadMore(foundBig.readMore);
       setRead(true);
     }
   }
 
+  function getVisiblePages(current: number, total: number): (number | string)[] {
+    if (total <= 4) return Array.from({ length: total }, (_, i) => i + 1);
+    if (current <= 3) return [1, 2, 3, "..."];
+    if (current >= total - 2) return ["...", total - 2, total - 1, total];
+    return ["...", current, current + 1, current + 2];
+  }
+
+  if (!convertedData) return null;
+
   return (
     <>
       <div className={styles.articleContainer}>
-        {choosenCards.map((item, key) => (
+        {(mode === "main-page" ? randomArticles : choosenCards).map((item, key) => (
           <div key={key} className={styles.someArticle}>
             <div className={styles.image}>
-              <Image src={item.image} alt="black hole" />
+              <Image src={item.image} alt="black hole" width={100} height={100}/>
             </div>
             <div className={styles.text}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <button onClick={()=> open(item.id)}>{"Read more >>"}</button>
+              <button onClick={() => open(item.id)}>{"Read more >>"}</button>
             </div>
           </div>
         ))}
       </div>
+
       {read && selectedReadMore && <ReadMore infoComponent={selectedReadMore} />}
-      {read && <div onClick={()=>setRead(false)} className="absolute z-10 top-2 right-7 text-[#2FDDE6] underline hover:cursor-pointer"><span>close</span></div>}
-{/* PAGINATION */}
+      {read && (
+        <div onClick={() => setRead(false)} className="absolute z-10 top-2 right-7 text-[#2FDDE6] underline hover:cursor-pointer">
+          <span>close</span>
+        </div>
+      )}
+
+      {/* PAGINATION */}
+    {mode === "articles-page" &&   
       <div className={`flex items-center justify-center ${styles.paginationContainer}`}>
-      {/* Previous Button */}
-      <button
-        onClick={() => currentPage > 1 && diapasonSliced(currentPage - 1)}
-        disabled={currentPage === 1}
-        className={` ${styles.paginBtn} ${currentPage === 1 ? `${styles.btnNoActive}` : ``}`}
-      >
-        {'<< Previous'}
-      </button>
+        <button
+          onClick={() => currentPage > 1 && diapasonSliced(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={` ${styles.paginBtn} ${currentPage === 1 ? `${styles.btnNoActive}` : ``}`}
+        >
+          {'<< Previous'}
+        </button>
 
-      {/* Page Numbers */}
-      <ul className="flex gap-2">
-        {getVisiblePages(currentPage, totalPages).map((page, i) => (
-          <li
-            key={i}
-            onClick={() => typeof page === "number" && diapasonSliced(page)}
-            className={`cursor-pointer
-              ${styles.pageOption} 
-              ${page === currentPage ? styles.activePage : styles.noActivePage}
-              ${typeof page === "string" ? "pointer-events-none bg-none" : ""}`}
-          >
-            {page}
-          </li>
-        ))}
-      </ul>
+        <ul className="flex gap-2">
+          {getVisiblePages(currentPage, totalPages).map((page, i) => (
+            <li
+              key={i}
+              onClick={() => typeof page === "number" && diapasonSliced(page)}
+              className={`cursor-pointer
+                ${styles.pageOption} 
+                ${page === currentPage ? styles.activePage : styles.noActivePage}
+                ${typeof page === "string" ? "pointer-events-none bg-none" : ""}`}
+            >
+              {page}
+            </li>
+          ))}
+        </ul>
 
-      {/* Next Button */}
-      <button disabled={currentPage === totalPages}
-        onClick={() => currentPage < totalPages && diapasonSliced(currentPage + 1)}
-        className={` ${styles.paginBtn} ${currentPage === totalPages ? `${styles.btnNoActive}` : ``}`}>
-        {'Next >>'}
-      </button>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => currentPage < totalPages && diapasonSliced(currentPage + 1)}
+          className={` ${styles.paginBtn} ${currentPage === totalPages ? `${styles.btnNoActive}` : ``}`}
+        >
+          {'Next >>'}
+        </button>
       </div>
+      }
     </>
   );
 }

@@ -16,17 +16,39 @@ const blockText = {
     ]
 }
 
-interface links {
+interface Links {
     "href": string,
     "text": string
 }
 
-export default function ShortInfo({mainHeader, describtion, links}:{mainHeader:string, describtion:string, links:links[]}) {
+interface SectionObj {
+    title: {
+        text: string,
+        links: Links[]
+    },
+    text: string
+}
+
+export default function ShortInfo({mainHeader, describtion, links, showClose=false,
+    sectionObj=[], setSectionObj, index=-1
+}:{mainHeader:string, describtion:string, links:Links[], showClose?:boolean,
+    sectionObj?:SectionObj[], setSectionObj?:(sectionObj:SectionObj[])=>void, index?:number
+}) {
     const [openSource, setOpenSource] = useState(false)
+
+    function deleteSection(index:number) {
+        if (setSectionObj) {
+            const updated = sectionObj.filter((_, i) => i !== index);
+            setSectionObj(updated);
+        }
+    }
+
     return(
         <>
-            <div className={styles.textContainer}>
-                <h3 className="underline hover:cursor-pointer hover:text-[#2FDDE6]"
+            <div className={`${styles.textContainer} relative`}>
+                {showClose && <span className="hover:cursor-pointer text-[red] absolute right-5"
+                onClick={()=>deleteSection(index)}>✕</span>}
+                <h3 className="underline hover:cursor-pointer hover:text-[#2FDDE6]" 
                 onClick={()=>setOpenSource(true)}>{mainHeader}</h3>
                 <p>
                 {describtion.split("\n").map((line, i) => (

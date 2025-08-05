@@ -7,7 +7,7 @@ import { useState } from "react";
 import BiggerImg from "./biggerImg";
 
 interface ImagesInfo {
-  img: StaticImageData;
+  img: string;
   imgDescribtion: string;
   alt: string;
   id: number;
@@ -56,7 +56,7 @@ export default function ReadMore({infoComponent}:{infoComponent:ReadMore}) {
             className="hover:cursor-pointer"
             onClick={() => open(item.id)}
           >
-            <Image src={item.img} alt={item.alt} />
+            <Image src={item.img} alt={item.alt} width={100} height={100} />
           </div>
         ))}
       </div>

@@ -5,6 +5,10 @@
     
   &>div {
     max-width: 70%;
+
+    &>img {
+      width: 10000px;
+    }
   }
 
 @media(width<= 800px) {
