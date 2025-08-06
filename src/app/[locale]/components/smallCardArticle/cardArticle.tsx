@@ -3,11 +3,10 @@ import styles from "./card.module.scss"
 import Image, { StaticImageData } from "next/image"
 import { useEffect, useState } from "react"
 import ReadMore from "../../readMore/readMore"
-import blackHoleImg from "@/imgs/blackHoleDesctop.svg"
-import nasaBlackHoleImg from "@/imgs/nasablackHole.svg"
-import antImg from "@/imgs/antDesctop.svg"
-import blackHoleMorInfoImg from "@/imgs/nasaBlackHoleInfo.svg"
+
 import { createClient } from "../../../../../utils/supabase/client"
+
+import { useLocale } from "next-intl"
 
 interface Card {
   id: number;
@@ -115,17 +114,22 @@ export default function CardArticle({mode, category}:{mode:string, category: str
   const itemsPerPage = 3;
 
   const totalPages = Math.ceil((convertedData?.miniVersions.length || 0) / itemsPerPage);
-
+  const locale = useLocale()
 useEffect(() => {
   async function supDataGet() {
+  
     let data, error;
 
     if (mode === "main-page") {
-      const res = await supabase.from('articles').select('*');
+      const res = await supabase.from('articles').select('*').eq('lang', locale);
       data = res.data;
       error = res.error;
     } else if (mode === "articles-page") {
-      const res = await supabase.from('articles').select('*').eq('category', category);
+      const res = await supabase
+      .from('articles')
+      .select('*')
+      .eq('category', category)
+      .eq('lang', locale);;
       data = res.data;
       error = res.error;
     }
@@ -154,16 +158,25 @@ useEffect(() => {
       setChoosenCards(sliced);
       setCurrentPage(pageNum);
     } else if(mode === "main-page" && convertedData) {
+
       let randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
       let randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
-      while (randomIndex === randomIndexTwo) {
-        randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
-        randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
-      }
       const choosenTwoRnadom = []
-      choosenTwoRnadom.push(convertedData.miniVersions[randomIndex])
-      choosenTwoRnadom.push(convertedData.miniVersions[randomIndexTwo])
-      setRandomArticles(choosenTwoRnadom)
+      if(convertedData.miniVersions.length <= 1) {
+        randomIndex = 0
+        choosenTwoRnadom.push(convertedData.miniVersions[randomIndex])
+        setRandomArticles(choosenTwoRnadom)
+      }else {
+        while (randomIndex === randomIndexTwo) {
+          randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
+          randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
+        }
+        choosenTwoRnadom.push(convertedData.miniVersions[randomIndex])
+        choosenTwoRnadom.push(convertedData.miniVersions[randomIndexTwo])
+        setRandomArticles(choosenTwoRnadom)
+      }
+
+
     }
 
   }
@@ -191,7 +204,7 @@ useEffect(() => {
         {(mode === "main-page" ? randomArticles : choosenCards).map((item, key) => (
           <div key={key} className={styles.someArticle}>
             <div className={styles.image}>
-              <Image src={item.image} alt="black hole" width={100} height={100}/>
+              <Image src={item.image} alt="black hole" width={1000} height={1000}/>
             </div>
             <div className={styles.text}>
               <h3>{item.title}</h3>

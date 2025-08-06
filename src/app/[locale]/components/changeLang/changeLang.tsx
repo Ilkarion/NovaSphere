@@ -18,9 +18,9 @@ export default function ChangeLang() {
             {showMenu ? 
             <ul className={`${styles.langMenu}`}>
                 <li><Link href={`/en`}>English</Link></li>
-                <li>Polska</li>
+                <li><Link href={'/pl'}>Polska</Link></li>
                 <li><Link href={`/ru`}>Русский</Link></li>
-                <li>Україньська</li>
+                <li><Link href={'/ukr'}>Україньська</Link></li>
             </ul>
              : 
             <></>

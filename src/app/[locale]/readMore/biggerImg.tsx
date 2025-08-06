@@ -13,7 +13,7 @@ export default function BiggerImg({
   return (
     <div className={styles.biggerImgContainer}>
       <div>
-          <Image src={imgData} alt={alt} width={100} height={100}/>
+          <Image src={imgData} alt={alt} width={10000} height={10000} />
       </div>
       <p className={styles.description}>{describtion}</p>
     </div>

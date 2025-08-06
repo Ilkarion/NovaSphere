@@ -1,0 +1,8 @@
+{
+  "HomePage": {
+    "title": "Encyclopedy",
+    "search": "Search...",
+    "categories": ["Nature of Earth", "Space", "Inventions of Mankind"],
+    "articles": "2 random articles"
+  }
+}

@@ -56,7 +56,7 @@ export default function ReadMore({infoComponent}:{infoComponent:ReadMore}) {
             className="hover:cursor-pointer"
             onClick={() => open(item.id)}
           >
-            <Image src={item.img} alt={item.alt} width={100} height={100} />
+            <Image src={item.img} alt={item.alt} width={10000} height={10000}/>
           </div>
         ))}
       </div>

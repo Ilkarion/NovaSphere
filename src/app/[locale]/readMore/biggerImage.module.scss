@@ -4,19 +4,21 @@
   align-items: center;
     
   &>div {
-    max-width: 70%;
-
+    width: 60vw;
+    height: 60vh;
     &>img {
-      width: 10000px;
+      object-fit: contain;
     }
   }
 
-@media(width<= 800px) {
-  &>div {
-    max-width: 90%;
-  }
-  }
+  @media(width<= 800px) {
+      &>div {
+        width: 70vw;
+      }
+    }
+
 }
+
 
 .description {
   margin-top: 0.5rem;

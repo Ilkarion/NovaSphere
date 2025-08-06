@@ -34,13 +34,13 @@ export default function DropImg({ onChange }: DropImgProps) {
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file) handleFile(file);
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (droppedFile) handleFile(droppedFile);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) handleFile(file);
+    const droppedFile = e.target.files?.[0];
+    if (droppedFile) handleFile(droppedFile);
   };
 
   const handleRemove = () => {
@@ -67,7 +67,7 @@ export default function DropImg({ onChange }: DropImgProps) {
       {preview && (
         <div className={`relative ${styles.previewImg}`}>
           <div className={styles.previewImg}>
-            <Image src={preview} alt="preview" width={100} height={100} />
+            <Image src={preview} alt="preview" width={1000} height={1000} quality={100}/>
           </div>
           <div className='absolute top-0 right-1 hover:cursor-pointer' onClick={handleRemove}>❌</div>
         </div>
