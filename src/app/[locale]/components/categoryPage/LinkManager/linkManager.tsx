@@ -1,7 +1,5 @@
-'use client'
-
-import { useState } from "react"
 import styles from "./linkManager.module.scss"
+import { useTranslations } from "next-intl";
 
 interface Link {
   text: string;
@@ -28,18 +26,20 @@ export default function LinksManager({
   addLink,
   removeLink
 }: Props) {
+  const t = useTranslations("NewArticle")
+
   return (
     <div className={styles.linksBlock}>
       <div className={styles.linksRow}>
         <input 
           type="text" 
-          placeholder="link name..." 
+          placeholder={t("linkName")}
           value={linkName} 
           onChange={(e) => setLinkName(e.target.value)} 
         />
         <input 
           type="text" 
-          placeholder="link..." 
+          placeholder={t("link")}
           value={linkURL} 
           onChange={(e) => setLinkURL(e.target.value)} 
         />

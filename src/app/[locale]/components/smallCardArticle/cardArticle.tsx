@@ -6,7 +6,7 @@ import ReadMore from "../../readMore/readMore"
 
 import { createClient } from "../../../../../utils/supabase/client"
 
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 interface Card {
   id: number;
@@ -115,36 +115,37 @@ export default function CardArticle({mode, category}:{mode:string, category: str
 
   const totalPages = Math.ceil((convertedData?.miniVersions.length || 0) / itemsPerPage);
   const locale = useLocale()
-useEffect(() => {
-  async function supDataGet() {
-  
-    let data, error;
+  const t = useTranslations("HomePage")
+  useEffect(() => {
+    async function supDataGet() {
+    
+      let data, error;
 
-    if (mode === "main-page") {
-      const res = await supabase.from('articles').select('*').eq('lang', locale);
-      data = res.data;
-      error = res.error;
-    } else if (mode === "articles-page") {
-      const res = await supabase
-      .from('articles')
-      .select('*')
-      .eq('category', category)
-      .eq('lang', locale);;
-      data = res.data;
-      error = res.error;
+      if (mode === "main-page") {
+        const res = await supabase.from('articles').select('*').eq('lang', locale);
+        data = res.data;
+        error = res.error;
+      } else if (mode === "articles-page") {
+        const res = await supabase
+        .from('articles')
+        .select('*')
+        .eq('category', category)
+        .eq('lang', locale);;
+        data = res.data;
+        error = res.error;
+      }
+
+      if (error) {
+        alert('Fetch error: ' + error.message);
+        return;
+      }
+
+      const finalData = convertArticlesToAllInfo(data as Article[]);
+      setConvertedData(finalData);
     }
 
-    if (error) {
-      alert('Fetch error: ' + error.message);
-      return;
-    }
-
-    const finalData = convertArticlesToAllInfo(data as Article[]);
-    setConvertedData(finalData);
-  }
-
-  supDataGet();
-}, []);
+    supDataGet();
+  }, []);
 
   useEffect(() => {
     if (convertedData) diapasonSliced(1);
@@ -209,7 +210,7 @@ useEffect(() => {
             <div className={styles.text}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <button onClick={() => open(item.id)}>{"Read more >>"}</button>
+              <button onClick={() => open(item.id)}>{t("readMore")}</button>
             </div>
           </div>
         ))}

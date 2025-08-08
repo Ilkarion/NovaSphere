@@ -13,6 +13,7 @@ import { ArticleData } from "./interfaces"
 import { uploadImage } from "./dragDropImg/uploadImg"
 
 import { sendArticle } from "./sendArticle"
+import { useTranslations } from "next-intl"
 
 interface Link {
   href: string;
@@ -73,6 +74,9 @@ export default function AddArticle({category}:{category:string}) {
         }
     };
 
+
+    //Translations
+    const t = useTranslations("NewArticle")
 
 
 
@@ -149,7 +153,7 @@ async function finalForm() {
                     hover:cursor-pointer"
                     onClick={()=>setOpen(false)}>close</span> {/* close add-new-article */}
 
-                    <p className={styles.newArtcl}>NEW ARTICLE</p>
+                    <p className={styles.newArtcl}>{t("titleMain")}</p>
 
                     <section>
                         <p className={styles.version}>Mini version</p>
@@ -161,11 +165,11 @@ async function finalForm() {
                                 {/* Drag and Drop */}
                             </div>
                             <div className={styles.textMini}>
-                                <input type="text" placeholder="Title... (max 100 symbols)" maxLength={100}
+                                <input type="text" placeholder={t("titleMini")} maxLength={100}
                                 onChange={(e)=>setInputMiniV(e.target.value)}
                                 value={inputMiniV}/>
 
-                                <textarea placeholder="Description... (max 200 symbols)" maxLength={200}
+                                <textarea placeholder={t("titleMiniDescrib")} maxLength={200}
                                 onChange={(e)=>{setMiniDescribt(e.target.value)}}
                                 value={miniDescribt}/>
                             </div>
@@ -178,14 +182,14 @@ async function finalForm() {
                             <div className={`${styles.dragDrop} ${styles.bigImages}`}>
                                 <DropImg onChange={(file)=>{setImgOne(file)}}/>
                                 {/* Drag and Drop */}
-                                <textarea name="imgText" className={styles.describeImg} placeholder="Image description... (max 2000 symbols)" maxLength={2000}
+                                <textarea name="imgText" className={styles.describeImg} placeholder={t("imageDescrib")} maxLength={2000}
                                 onChange={(e)=>setImgOneText(e.target.value)}
                                 value={imgOneText}/>
                             </div>
                             <div className={`${styles.dragDrop} ${styles.bigImages} ${styles.marginMedia}`}>
                                 <DropImg onChange={(file)=>{setImgTwo(file)}}/>
                                 {/* Drag and Drop */}
-                                <textarea name="imgText" className={styles.describeImg} placeholder="Image description... (max 2000 symbols)" maxLength={2000}
+                                <textarea name="imgText" className={styles.describeImg} placeholder={t("imageDescrib")} maxLength={2000}
                                 onChange={(e)=>setImgTwoText(e.target.value)}
                                 value={imgTwoText}/>
                             </div>
@@ -193,7 +197,7 @@ async function finalForm() {
                     </section>
 
                     <section className={styles.sectionArea}>
-                        <input type="text" placeholder="Name section..." className={styles.sectionName}
+                        <input type="text" placeholder={t("nameSection")} className={styles.sectionName}
                             onChange={(e)=> setInputHeader(e.target.value)}
                             value={inputHeader}/>
                         <div className={styles.linksRow}>
@@ -212,12 +216,12 @@ async function finalForm() {
                                 <div><span><Link href="#question">?</Link></span></div>
                             </div>
                         </div>
-                        <textarea placeholder="Explain this section here..." maxLength={3000} 
+                        <textarea placeholder={t("sectionDescrib")} maxLength={3000} 
                         className={styles.explainSection}
                         onChange={(e)=>setSectionExplain(e.target.value)}
                         value={sectionExplain}/>
                         <div className={styles.addSection}>
-                            <button onClick={()=>collectData(inputHeader, sectionExplain, links)}>add section</button>
+                            <button onClick={()=>collectData(inputHeader, sectionExplain, links)}>{t("addBtn")}</button>
                         </div>
                         {sectionObj && 
                             <div className={styles.shortInfoDemoContainer}>
@@ -240,10 +244,10 @@ async function finalForm() {
                     </section>
 
                     <p className={styles.hint} id="question">
-                        ? -- For section you should add link which will show other users where you found this information and if what you say is true. This is like confirmation of your words.
+                        ? -- {t("question")}
                     </p>
 
-                    <button className={styles.addArticleBtn} onClick={()=>finalForm()}>Add article</button>
+                    <button className={styles.addArticleBtn} onClick={()=>finalForm()}>{t("articleBtn")}</button>
                 </div>
             }      
         </>

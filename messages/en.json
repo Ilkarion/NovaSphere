@@ -3,6 +3,22 @@
     "title": "Encyclopedy",
     "search": "Search...",
     "categories": ["Nature of Earth", "Space", "Inventions of Mankind"],
-    "articles": "2 random articles"
+    "articles": "2 random articles",
+    "readMore": "Read more >>"
+  },
+  "NewArticle": {
+    "titleMain": "NEW ARTICLE",
+    "titleMini": "Title...(max 100 symbols)",
+    "titleMiniDescrib": "Describtion...(max 200 symbols)",
+
+    "imageDescrib": "Image describtion...(max 2000 symbols)",
+    "nameSection": "Name section...",
+    "linkName": "links name...",
+    "link": "link...",
+    "sectionDescrib": "Explain this section here...",
+    "addBtn": "add section",
+    "question": "For section you should add link which will show other users where you found this information and if what you say is true. This is like confirmation of your words.",
+
+    "articleBtn": "Add article"
   }
 }

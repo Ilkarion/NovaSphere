@@ -1,10 +1,14 @@
+import { useTranslations } from "next-intl"
 import CategoryPage from "../../components/categoryPage/categoryPage"
 
 
-export default function page() {
+export default function Page() {
+
+    const t = useTranslations("HomePage")
+    const categories: string[] = t.raw("categories")
     return(
         <>
-            <CategoryPage header="Space"/>
+            <CategoryPage header={categories[1]}/>
         </>
     )
 };
