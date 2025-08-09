@@ -1,102 +1,3 @@
-
-.articleContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  font-size: 25px;
-  width: 100%;
-}
-.articleContainer .someArticle {
-  min-width: 320px;
-  background-color: var(--bg-blocks);
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  padding-right: 40px;
-  max-width: 100%;
-}
-@media (width <= 540px) {
-  .articleContainer .someArticle {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-  }
-}
-.articleContainer .someArticle .image {
-  width: 250px;
-  height: 250px;
-}
-.articleContainer .someArticle .text {
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  position: relative;
-  min-width: 320px;
-}
-@media (width <= 840px) {
-  .articleContainer .someArticle .text {
-    gap: 0px;
-  }
-}
-@media (width <= 540px) {
-  .articleContainer .someArticle .text {
-    align-items: center;
-  }
-}
-.articleContainer .someArticle .text > h3 {
-  font-size: 50px;
-  max-width: 100%;
-}
-@media (width <= 540px) {
-  .articleContainer .someArticle .text > h3 {
-    font-size: 25px;
-  }
-}
-.articleContainer .someArticle .text > p {
-  max-width: 860px;
-  width: 100%;
-  margin-bottom: 0px;
-}
-@media (width <= 1000px) {
-  .articleContainer .someArticle .text > p {
-    max-width: 740px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    white-space: normal;
-  }
-}
-@media (width <= 540px) {
-  .articleContainer .someArticle .text > p {
-    margin-bottom: 0px;
-    text-align: center;
-    font-size: 20px;
-  }
-}
-.articleContainer .someArticle .text > button {
-  font-size: 20px;
-  padding: 10px 26px;
-  background-color: var(--highlight);
-  border: none;
-  max-width: 200px;
-  text-align: center;
-  position: absolute;
-  bottom: 20px;
-  right: 0px;
-  color: var(--main-text);
-}
-.articleContainer .someArticle .text > button:hover {
-  cursor: pointer;
-}
-@media (width <= 540px) {
-  .articleContainer .someArticle .text > button {
-    position: static;
-  }
-}
-
-
 // PAGINATION
 
 .paginBtn {
@@ -145,4 +46,106 @@
       font-size: 15px;
     }
   }
+}
+
+.articleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    font-size: 25px;
+    width: 100%;
+
+    .someArticle {
+        min-width: 320px;
+        background-color: var(--bg-blocks);
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        padding-right: 40px;
+        max-width: 100%;
+
+        @media (width <= 540px) {
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+        .image {
+            width: 250px;            
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            position: relative;
+            min-width: 320px;
+
+            @media(width <= 840px) {
+                & {
+                    gap: 25px;
+                }
+            }
+
+            @media (width <= 540px) {
+                align-items: center;
+            }
+            &>h3 {
+                font-size: 50px;
+                max-width: 100%;
+                @media(width <= 1100px) {
+                  & {
+                    font-size: 32px;
+                  }
+                }
+                @media(width <= 540px) {
+                    text-align: center;
+                }
+                @media(width <= 840px) {
+                    font-size: 25px;
+                }
+            }
+            &>p {
+                max-width: 860px;
+                width: 100%;
+                margin-bottom: 80px;
+                @media(width <= 840px) {
+                    & {
+                        max-width: 740px;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        white-space: normal;
+
+                        font-size: 20px;
+                    }
+                }
+                @media (width <= 540px) {
+                    margin-bottom: 0px;
+                    text-align: center;
+                }
+            }
+            &>button {
+                padding: 10px 26px;
+                background-color: var(--highlight);
+                border: none;
+                max-width: 235px;
+                text-align: center;
+                position: absolute;
+                bottom: 20px;
+                right: 0px;
+                color: var(--main-text);
+                font-size: 12px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+            @media (width <= 540px) {
+                position: static;
+            }
+            }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 'use client'
 import styles from "./card.module.scss"
-import Image, { StaticImageData } from "next/image"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import ReadMore from "../../readMore/readMore"
 
@@ -11,7 +11,7 @@ import { useLocale, useTranslations } from "next-intl"
 interface Card {
   id: number;
   title: string;
-  image: StaticImageData;
+  image: string; // строка URL или путь
   description: string;
 }
 
@@ -33,13 +33,6 @@ interface TextAbout {
   links: LinksSource[];
 }
 
-interface MiniVersion {
-  id: number;
-  title: string;
-  image: StaticImageData;
-  description: string;
-}
-
 interface ReadMoreI {
   infoImg: ImagesInfo[];
   blockText: TextAbout[];
@@ -51,7 +44,7 @@ interface BiggerVersions {
 }
 
 interface AllInfoObject {
-  miniVersions: MiniVersion[];
+  miniVersions: Card[]; // Используем Card с image:string
   biggerVersions: BiggerVersions[];
 }
 
@@ -84,7 +77,7 @@ function convertArticlesToAllInfo(data: Article[]): AllInfoObject {
       allInfo.miniVersions.push({
         id,
         title: mini.title,
-        image: mini.image as unknown as StaticImageData,
+        image: mini.image,  // оставляем строку
         description: mini.describtion,
       });
     });
@@ -110,15 +103,15 @@ export default function CardArticle({mode, category}:{mode:string, category: str
   const [read, setRead] = useState(false);
   const [selectedReadMore, setSelectedReadMore] = useState<ReadMoreI | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [randomArticles, setRandomArticles] = useState<Card[]>([])
+  const [randomArticles, setRandomArticles] = useState<Card[]>([]);
   const itemsPerPage = 3;
 
   const totalPages = Math.ceil((convertedData?.miniVersions.length || 0) / itemsPerPage);
-  const locale = useLocale()
-  const t = useTranslations("HomePage")
+  const locale = useLocale();
+  const t = useTranslations("HomePage");
+
   useEffect(() => {
     async function supDataGet() {
-    
       let data, error;
 
       if (mode === "main-page") {
@@ -127,10 +120,10 @@ export default function CardArticle({mode, category}:{mode:string, category: str
         error = res.error;
       } else if (mode === "articles-page") {
         const res = await supabase
-        .from('articles')
-        .select('*')
-        .eq('category', category)
-        .eq('lang', locale);;
+          .from('articles')
+          .select('*')
+          .eq('category', category)
+          .eq('lang', locale);
         data = res.data;
         error = res.error;
       }
@@ -145,41 +138,39 @@ export default function CardArticle({mode, category}:{mode:string, category: str
     }
 
     supDataGet();
-  }, []);
+  }, [mode, category, locale, supabase]);
 
   useEffect(() => {
     if (convertedData) diapasonSliced(1);
   }, [convertedData]);
 
   function diapasonSliced(pageNum: number) {
-    if(mode === "articles-page") {
+    if (mode === "articles-page") {
       const start = (pageNum - 1) * itemsPerPage;
       const end = start + itemsPerPage;
       const sliced = convertedData?.miniVersions.slice(start, end) || [];
       setChoosenCards(sliced);
       setCurrentPage(pageNum);
-    } else if(mode === "main-page" && convertedData) {
+    } else if (mode === "main-page" && convertedData) {
+      if (convertedData.miniVersions.length === 0) return;
 
-      let randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
-      let randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
-      const choosenTwoRnadom = []
-      if(convertedData.miniVersions.length <= 1) {
-        randomIndex = 0
-        choosenTwoRnadom.push(convertedData.miniVersions[randomIndex])
-        setRandomArticles(choosenTwoRnadom)
-      }else {
+      const randomIndex = Math.floor(Math.random() * convertedData.miniVersions.length);
+      let randomIndexTwo = Math.floor(Math.random() * convertedData.miniVersions.length);
+
+      const chosenTwoRandom: Card[] = [];
+
+      if (convertedData.miniVersions.length === 1) {
+        chosenTwoRandom.push(convertedData.miniVersions[0]);
+      } else {
         while (randomIndex === randomIndexTwo) {
-          randomIndex = Math.floor(Math.random() * convertedData?.miniVersions.length);
-          randomIndexTwo = Math.floor(Math.random() * convertedData?.miniVersions.length);
+          randomIndexTwo = Math.floor(Math.random() * convertedData.miniVersions.length);
         }
-        choosenTwoRnadom.push(convertedData.miniVersions[randomIndex])
-        choosenTwoRnadom.push(convertedData.miniVersions[randomIndexTwo])
-        setRandomArticles(choosenTwoRnadom)
+        chosenTwoRandom.push(convertedData.miniVersions[randomIndex]);
+        chosenTwoRandom.push(convertedData.miniVersions[randomIndexTwo]);
       }
 
-
+      setRandomArticles(chosenTwoRandom);
     }
-
   }
 
   function open(id: number) {
@@ -205,7 +196,7 @@ export default function CardArticle({mode, category}:{mode:string, category: str
         {(mode === "main-page" ? randomArticles : choosenCards).map((item, key) => (
           <div key={key} className={styles.someArticle}>
             <div className={styles.image}>
-              <Image src={item.image} alt="black hole" width={1000} height={1000}/>
+              <Image src={item.image} alt={item.title} width={1000} height={1000} />
             </div>
             <div className={styles.text}>
               <h3>{item.title}</h3>
@@ -218,46 +209,48 @@ export default function CardArticle({mode, category}:{mode:string, category: str
 
       {read && selectedReadMore && <ReadMore infoComponent={selectedReadMore} />}
       {read && (
-        <div onClick={() => setRead(false)} className="absolute z-10 top-2 right-7 text-[#2FDDE6] underline hover:cursor-pointer">
+        <div
+          onClick={() => setRead(false)}
+          className="absolute z-10 top-2 right-7 text-[#2FDDE6] underline hover:cursor-pointer"
+        >
           <span>close</span>
         </div>
       )}
 
-      {/* PAGINATION */}
-    {mode === "articles-page" &&   
-      <div className={`flex items-center justify-center ${styles.paginationContainer}`}>
-        <button
-          onClick={() => currentPage > 1 && diapasonSliced(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={` ${styles.paginBtn} ${currentPage === 1 ? `${styles.btnNoActive}` : ``}`}
-        >
-          {'<< Previous'}
-        </button>
+      {mode === "articles-page" && (
+        <div className={`flex items-center justify-center ${styles.paginationContainer}`}>
+          <button
+            onClick={() => currentPage > 1 && diapasonSliced(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={` ${styles.paginBtn} ${currentPage === 1 ? `${styles.btnNoActive}` : ``}`}
+          >
+            {'<< Previous'}
+          </button>
 
-        <ul className="flex gap-2">
-          {getVisiblePages(currentPage, totalPages).map((page, i) => (
-            <li
-              key={i}
-              onClick={() => typeof page === "number" && diapasonSliced(page)}
-              className={`cursor-pointer
-                ${styles.pageOption} 
-                ${page === currentPage ? styles.activePage : styles.noActivePage}
-                ${typeof page === "string" ? "pointer-events-none bg-none" : ""}`}
-            >
-              {page}
-            </li>
-          ))}
-        </ul>
+          <ul className="flex gap-2">
+            {getVisiblePages(currentPage, totalPages).map((page, i) => (
+              <li
+                key={i}
+                onClick={() => typeof page === "number" && diapasonSliced(page)}
+                className={`cursor-pointer
+                  ${styles.pageOption} 
+                  ${page === currentPage ? styles.activePage : styles.noActivePage}
+                  ${typeof page === "string" ? "pointer-events-none bg-none" : ""}`}
+              >
+                {page}
+              </li>
+            ))}
+          </ul>
 
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => currentPage < totalPages && diapasonSliced(currentPage + 1)}
-          className={` ${styles.paginBtn} ${currentPage === totalPages ? `${styles.btnNoActive}` : ``}`}
-        >
-          {'Next >>'}
-        </button>
-      </div>
-      }
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => currentPage < totalPages && diapasonSliced(currentPage + 1)}
+            className={` ${styles.paginBtn} ${currentPage === totalPages ? `${styles.btnNoActive}` : ``}`}
+          >
+            {'Next >>'}
+          </button>
+        </div>
+      )}
     </>
   );
 }

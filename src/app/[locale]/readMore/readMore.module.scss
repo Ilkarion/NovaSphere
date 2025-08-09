@@ -19,6 +19,7 @@
 
     &>div {
         height: 350px;
+        outline: 2px var(--accents) solid;
 
         @media(width < 700px) {
           height: 250px;
