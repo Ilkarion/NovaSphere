@@ -4,6 +4,7 @@ import Image from "next/image";
 import searchImg from "../../../../../imgs/search.svg";
 import styles from "./searchsmth.module.scss";
 import { useTranslations } from "next-intl";
+import FoundedSearch from "./foundedSearch";
 
 type Link = {
   href: string;
@@ -79,28 +80,26 @@ export default function SearchSmth() {
   }
 
   return (
-    <div className={styles.serchContainer}>
-      <input
-        type="text"
-        placeholder={t("search")}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") handleSearch();
-        }}
-      />
-      <button onClick={handleSearch} aria-label="Search button">
-        <Image src={searchImg} alt="search" />
-      </button>
+    <div className={"flex flex-col w-full"}>
+      <div  className={styles.serchContainer}>
+        <input
+          type="text"
+          placeholder={t("search")}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSearch();
+          }}
+        />
+        <button onClick={handleSearch} aria-label="Search button">
+          <Image src={searchImg} alt="search" />
+        </button>
+      </div>
       {loading && <p>Загрузка...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
-        {results.map((item) => (
-          <li key={item.id}>
-            <pre>{JSON.stringify(item.data, null, 2)}</pre>
-          </li>
-        ))}
-      </ul>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <ul>
+          <FoundedSearch articles={results.map(article => article.data)} />
+        </ul>
     </div>
   );
 }

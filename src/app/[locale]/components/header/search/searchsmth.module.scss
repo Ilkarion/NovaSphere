@@ -3,8 +3,9 @@
     flex-direction: row;
     position: relative;
     align-items: center;
-    max-width: 930px;
+    width: 80%;
     margin: auto;
+    margin-bottom: 40px;
     
     &>input {
         width: 100%;
@@ -18,8 +19,15 @@
         &:focus-visible {
             outline: none;
         }
+
+        & {
+            @media(width <=600px) {
+                height: 50px;
+                font-size: 18px;
+            }
+        }
     }
-    &>div {
+    &>button {
         width: 48px;
         height: 48px;
         position: absolute;
@@ -30,6 +38,12 @@
         }
         &>img {
             object-fit: contain;
+        }
+        & {
+            @media(width <=600px) {
+                width: 38px;
+                height: 38px;
+            }
         }
     }
 }

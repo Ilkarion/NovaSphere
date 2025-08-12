@@ -1,5 +1,5 @@
 'use client'
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import styles from "./readMore.module.scss";
 
 import ShortInfo from "./shortInfo";
