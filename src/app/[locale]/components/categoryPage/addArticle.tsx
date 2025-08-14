@@ -4,34 +4,24 @@ import addArticleImg from "@/imgs/addArticle.svg"
 import Image from "next/image"
 import styles from "./add.module.scss"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import DropImg from "./dragDropImg/dropImg"
 import LinksManager from "./LinkManager/linkManager"
 import Link from "next/link"
 import ShortInfo from "../../readMore/shortInfo"
-import { ArticleData } from "./interfaces"
+import { ArticleObject } from "../interface/allTypes"
 import { uploadImage } from "./dragDropImg/uploadImg"
 
 import { sendArticle } from "./sendArticle"
 import { useTranslations } from "next-intl"
 
-interface Link {
-  href: string;
-  text: string;
-}
+import { LinksSource, SectionObj } from "../interface/allTypes"
 
-interface SectionObj {
-    title: {
-        text: string,
-        links: Link[]
-    },
-    text: string
-}
 
 export default function AddArticle({category}:{category:string}) {
     const [ open, setOpen ] = useState(false)
 
-    const [links, setLinks] = useState<Link[]>([]);
+    const [links, setLinks] = useState<LinksSource[]>([]);
     const [linkName, setLinkName] = useState('');
     const [linkURL, setLinkURL] = useState('');
 
@@ -39,7 +29,7 @@ export default function AddArticle({category}:{category:string}) {
     const [inputHeader, setInputHeader] = useState('')
     const [sectionExplain, setSectionExplain] = useState('')
     const [sectionObj, setSectionObj] = useState<SectionObj[]>([])
-    function collectData(header:string, describtion:string, links:Link[]) {
+    function collectData(header:string, describtion:string, links:LinksSource[]) {
         if(inputHeader && sectionExplain) {
             const newObj = {
                 title: {
@@ -90,7 +80,7 @@ async function finalForm() {
     const bigImgUrlOne = await uploadImage(imgOne);
     const bigImgUrlTwo = await uploadImage(imgTwo);
 
-    const articleObj: ArticleData = {
+    const articleObj: ArticleObject = {
         miniVersions: [
             {
                 title: inputMiniV,
@@ -130,10 +120,6 @@ async function finalForm() {
     if (success) {
         alert("Success!!!")
     }
-
-    // console.log("FINAL OBJ:", articleObj);
-
-    // Тут добавь код для отправки articleObj в базу или дальше по логике
 }
 
     return(

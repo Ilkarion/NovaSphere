@@ -1,14 +1,12 @@
 import styles from "./linkManager.module.scss"
 import { useTranslations } from "next-intl";
+import { LinksSource } from "../../interface/allTypes";
 
-interface Link {
-  text: string;
-  href: string;
-}
+
 
 
 type Props = {
-  links: Link[];
+  links: LinksSource[];
   linkName: string;
   linkURL: string;
   setLinkName: (name: string) => void;

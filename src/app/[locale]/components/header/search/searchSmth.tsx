@@ -6,61 +6,22 @@ import styles from "./searchsmth.module.scss";
 import { useTranslations } from "next-intl";
 import FoundedSearch from "./foundedSearch";
 
-type Link = {
-  href: string;
-  text: string;
-};
+import { Article } from "../../interface/allTypes";
 
-type BlockText = {
-  links: Link[];
-  mainHeader: string;
-  describtion: string;
-};
-
-type InfoImg = {
-  id: number;
-  alt: string;
-  img: string;
-  imgDescribtion: string;
-};
-
-type ReadMore = {
-  infoImg: InfoImg[];
-  blockText: BlockText[];
-};
-
-type BiggerVersion = {
-  readMore: ReadMore;
-};
-
-type MiniVersion = {
-  image: string;
-  title: string;
-  describtion: string;
-};
-
-type ArticleData = {
-  miniVersions: MiniVersion[];
-  biggerVersions: BiggerVersion[];
-};
-
-type Article = {
-  id: number;
-  data: ArticleData;
-};
+import { useLocale } from "next-intl";
 
 
 export default function SearchSmth() {
+  const lang = useLocale()
   const t = useTranslations("HomePage");
   const [query, setQuery] = useState<string>("");
-  const [lang, setLang] = useState<string>("en");
   const [results, setResults] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   async function handleSearch() {
     if (query.length < 3) {
-      setError("Введите минимум 3 символа");
+      setError("Minimum 3 symbols");
       return;
     }
     setError("");
@@ -71,11 +32,12 @@ export default function SearchSmth() {
       if (res.ok) {
         setResults(data);
       } else {
-        setError("Ошибка поиска");
+        setError("Search error");
       }
     } catch {
-      setError("Ошибка сети");
+      setError("Connection error");
     }
+    console.log(lang)
     setLoading(false);
   }
 

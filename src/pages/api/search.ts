@@ -29,10 +29,10 @@ export default async function handler(
   const { data, error } = await supabase
     .from('articles')
     .select('id, data')
+    .eq('lang', lang)
     .textSearch(searchColumn, query, {
       type: 'plain', // или 'websearch'
     });
-
   if (error) {
     return res.status(500).json({ error: error.message });
   }

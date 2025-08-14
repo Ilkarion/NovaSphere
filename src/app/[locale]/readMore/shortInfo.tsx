@@ -4,34 +4,12 @@ import { useState } from "react"
 import styles from "./shortInfo.module.scss"
 import Link from "next/link"
 
-const blockText = {
-    "main-header": "...",
-    "describtion": "...",
-    "links": [
-        {
-            "href": "https://www.nasa.gov/universe/what-are-black-holes/",
-            "text": "Nasa"
-        }
-        
-    ]
-}
+import { LinksSource, SectionObj } from "../components/interface/allTypes"
 
-interface Links {
-    "href": string,
-    "text": string
-}
-
-interface SectionObj {
-    title: {
-        text: string,
-        links: Links[]
-    },
-    text: string
-}
 
 export default function ShortInfo({mainHeader, describtion, links, showClose=false,
     sectionObj=[], setSectionObj, index=-1
-}:{mainHeader:string, describtion:string, links:Links[], showClose?:boolean,
+}:{mainHeader:string, describtion:string, links:LinksSource[], showClose?:boolean,
     sectionObj?:SectionObj[], setSectionObj?:(sectionObj:SectionObj[])=>void, index?:number
 }) {
     const [openSource, setOpenSource] = useState(false)
@@ -64,7 +42,7 @@ export default function ShortInfo({mainHeader, describtion, links, showClose=fal
             <div className={styles.sourceMenu}>
                 <span>SOURCE:</span>
                 <div>
-                    {links.map((item, key) => <Link href={item.href} key={key}>{item.text}</Link>)}
+                    {links.map((item, key) => <Link href={item.href} key={key} target="_blank">{item.text}</Link>)}
                 </div>
                 <span className={styles.closeSource} onClick={()=>setOpenSource(false)}>close</span>
             </div>

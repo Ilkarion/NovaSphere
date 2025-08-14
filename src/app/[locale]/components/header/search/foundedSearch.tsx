@@ -3,44 +3,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import styles from '@/app/[locale]/components/smallCardArticle/card.module.scss';
 import ReadMore from '@/app/[locale]/readMore/readMore';
+import { ArticleObject, ReadMoreI } from '../../interface/allTypes';
 
-interface ImagesInfo {
-  img: string;
-  imgDescribtion: string;
-  alt: string;
-  id: number;
-}
 
-interface LinksSource {
-  href: string;
-  text: string;
-}
 
-interface TextAbout {
-  mainHeader: string;
-  describtion: string;
-  links: LinksSource[];
-}
-
-interface ReadMoreI {
-  infoImg: ImagesInfo[];
-  blockText: TextAbout[];
-}
-
-interface MiniVersion {
-  image: string;
-  title: string;
-  describtion: string;
-}
-
-interface BiggerVersion {
-  readMore: ReadMoreI;
-}
-
-interface ArticleObject {
-  miniVersions: MiniVersion[];
-  biggerVersions: BiggerVersion[];
-}
 
 export default function FoundedSearch({ articles }: { articles: ArticleObject[] }) {
   const [read, setRead] = useState(false);

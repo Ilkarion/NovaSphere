@@ -1,9 +1,9 @@
 import { createClient } from "../../../../../utils/supabase/client";
-import { ArticleData } from "./interfaces";
+import { ArticleObject } from "../interface/allTypes";
 
 
 
-export async function sendArticle(articleObj: ArticleData, category:string) {
+export async function sendArticle(articleObj: ArticleObject, category:string) {
 const supabase = createClient()
   const { data, error } = await supabase
     .from('articles')
@@ -13,10 +13,9 @@ const supabase = createClient()
      }]);
 
   if (error) {
-    console.error('Ошибка при отправке статьи:', error);
-    alert('Ошибка при отправке статьи');
+    alert('Error when submitting an article');
     return false;
   }
-  alert('Статья успешно отправлена!');
+  alert('The article has been successfully submitted!');
   return true;
 }

@@ -7,64 +7,9 @@ import ReadMore from "../../readMore/readMore"
 import { createClient } from "../../../../../utils/supabase/client"
 
 import { useLocale, useTranslations } from "next-intl"
+import { Article, AllInfoObject, Card, ReadMoreI } from "../interface/allTypes"
 
-interface Card {
-  id: number;
-  title: string;
-  image: string; // строка URL или путь
-  description: string;
-}
 
-interface ImagesInfo {
-  img: string;
-  imgDescribtion: string;
-  alt: string;
-  id: number;
-}
-
-interface LinksSource {
-  href: string;
-  text: string;
-}
-
-interface TextAbout {
-  mainHeader: string;
-  describtion: string;
-  links: LinksSource[];
-}
-
-interface ReadMoreI {
-  infoImg: ImagesInfo[];
-  blockText: TextAbout[];
-}
-
-interface BiggerVersions {
-  id: number;
-  readMore: ReadMoreI;
-}
-
-interface AllInfoObject {
-  miniVersions: Card[]; // Используем Card с image:string
-  biggerVersions: BiggerVersions[];
-}
-
-export interface Article {
-  id: number;
-  created_at: string;
-  data: {
-    miniVersions: {
-      image: string;
-      title: string;
-      describtion: string;
-    }[];
-    biggerVersions: {
-      readMore: {
-        infoImg: ImagesInfo[];
-        blockText: TextAbout[];
-      };
-    }[];
-  };
-}
 
 function convertArticlesToAllInfo(data: Article[]): AllInfoObject {
   const allInfo: AllInfoObject = {
